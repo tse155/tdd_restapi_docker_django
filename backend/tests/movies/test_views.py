@@ -59,10 +59,11 @@ def test_add_movie_invalid_json_keys(client):
 
 @pytest.mark.django_db
 def test_get_single_movie(client, add_movie):
-    movie = add_movie(title="The Big Lebowski", genre="comedy", year="1998")
+    # add_movie -> from conftests
+    movie = add_movie(title="The Big Short", genre="comedy", year="2014")
     resp = client.get(f"/api/movies/{movie.id}/")
     assert resp.status_code == 200
-    assert resp.data["title"] == "The Big Lebowski"
+    assert resp.data["title"] == movie.title
 
 
 # @pytest.mark.django_db
@@ -72,6 +73,16 @@ def test_get_single_movie(client, add_movie):
 #     resp = client.get(f"/api/movies/{movie.id}/")  # type: ignore
 #     assert resp.status_code == 200
 #     assert resp.data["title"] == "The Big Lebowski"
+
+
+@pytest.mark.django_db
+def test_get_all_movies(client, add_movie):
+    movie_one = add_movie(title="The Big Short", genre="comedy", year="2014")
+    movie_two = add_movie("LOTR", "thriller", "2001")
+    resp = client.get(f"/api/movies/")
+    assert resp.status_code == 200
+    assert resp.data[0]["title"] == movie_one.title
+    assert resp.data[1]["title"] == movie_two.title
 
 
 @pytest.mark.django_db
