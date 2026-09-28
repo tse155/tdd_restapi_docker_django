@@ -1,0 +1,21 @@
+services:
+  movies:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/:/usr/src/app/
+    ports:
+      - 8009:8000
+    env_file:
+      - ./backend/.env.dev
+    depends_on:
+      - movies-db
+  
+  movies-db:
+    image: postgres:18
+    volumes:
+      - postgres_data:/var/lib/postgresql/
+    env_file:
+      - ./backend/.env.dev
+volumes:
+  postgres_data:
