@@ -1,6 +1,7 @@
 asgiref==3.12.1
 Django==6.0
 djangorestframework==3.16.1
+gunicorn==22.0.0
 iniconfig==2.3.0
 packaging==26.3
 pluggy==1.6.0
