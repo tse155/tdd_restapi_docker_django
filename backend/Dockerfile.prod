@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED 1
 #shouldnt be here: should be generated at runtime
 #no need to specify it is in env.prod.local
 #ENV SECRET_KEY foo
-ENV DJANGO_ALLOWED_HOSTS localhost 127.0.0.1 [::1]
+#ENV DJANGO_ALLOWED_HOSTS localhost 127.0.0.1 [::1]
 
 # install system dependencies
 #no need for gcc nor postgresql since we use psycopg-binary in requirements.txt
@@ -27,6 +27,9 @@ RUN pip install -r requirements.txt
 
 # add app
 COPY . .
+
+# collect static files
+RUN python manage.py collectstatic --noinput
 
 # add and run as non-root user
 RUN adduser --disabled-password myuser
