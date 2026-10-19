@@ -1,4 +1,4 @@
-import json
+# import json
 
 import pytest  # type:ignore
 
@@ -79,7 +79,7 @@ def test_get_single_movie(client, add_movie):
 def test_get_all_movies(client, add_movie):
     movie_one = add_movie(title="The Big Short", genre="comedy", year="2014")
     movie_two = add_movie("LOTR", "thriller", "2001")
-    resp = client.get(f"/api/movies/")
+    resp = client.get("/api/movies/")
     assert resp.status_code == 200
     assert resp.data[0]["title"] == movie_one.title
     assert resp.data[1]["title"] == movie_two.title
