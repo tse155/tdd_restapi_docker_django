@@ -42,6 +42,7 @@ jobs:
           --health-retries 5
     container:
       image: ghcr.io/${{ github.repository }}:latest
+      options: --user root 
     env:
       DATABASE_URL: postgresql://runner:runner@postgres:5432/users
     steps:
