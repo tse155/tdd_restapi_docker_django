@@ -1,0 +1,52 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build and push image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}
+          docker pull $IMAGE:latest || true
+          docker build \
+            --cache-from $IMAGE:latest \
+            --tag $IMAGE:latest \
+            --file ./backend/Dockerfile.prod \
+            ./backend
+          docker push $IMAGE:latest
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: users
+          POSTGRES_USER: runner
+          POSTGRES_PASSWORD: runner
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    container:
+      image: ghcr.io/${{ github.repository }}:latest
+    env:
+      DATABASE_URL: postgresql://runner:runner@postgres:5432/users
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run tests
+        run: |
+          cd backend
+          pytest -p no:warnings --cov=.
+          flake8 .
+          black --check --exclude=migrations .
+          isort . --check-only
