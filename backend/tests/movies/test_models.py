@@ -1,6 +1,5 @@
 import pytest  # type:ignore
 
-
 from movies.models import Movie  # type:ignore
 
 
