@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write  # This fixes the package creation error
+      packages: write  
     steps:
       - uses: actions/checkout@v4
       - name: Log in to GitHub Container Registry
@@ -46,7 +46,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://runner:runner@postgres:5432/users
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run tests
         run: |
           cd backend
@@ -54,3 +54,30 @@ jobs:
           flake8 .
           black --check --exclude=migrations .
           isort . --check-only
+  
+    deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
+    env:
+      HEROKU_APP_NAME: shrouded-coast-71667
+      HEROKU_REGISTRY_IMAGE: registry.heroku.com/shrouded-coast-71667/web
+      HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to Heroku registry
+        run: echo "$HEROKU_AUTH_TOKEN" | docker login registry.heroku.com -u _ --password-stdin
+      - name: Build and push
+        run: |
+          docker build \
+            --tag $HEROKU_REGISTRY_IMAGE \
+            --file ./backend/Dockerfile.prod \
+            ./backend
+          docker push $HEROKU_REGISTRY_IMAGE
+      - name: Release
+        run: |
+          chmod +x ./release.sh
+          ./release.sh
