@@ -55,7 +55,7 @@ jobs:
           black --check --exclude=migrations .
           isort . --check-only
   
-    deploy:
+  deploy:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -80,4 +80,4 @@ jobs:
       - name: Release
         run: |
           chmod +x ./release.sh
-          ./release.sh
+          ./release.sh  
