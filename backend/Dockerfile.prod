@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 #No need to specify it its in env.prod.local
+#Try with ==
 #ENV DEBUG 0
 #shouldnt be here: should be generated at runtime
 #no need to specify it is in env.prod.local
