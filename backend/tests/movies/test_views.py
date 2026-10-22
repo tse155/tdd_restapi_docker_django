@@ -5,7 +5,7 @@ import pytest  # type:ignore
 from movies.models import Movie
 
 
-#! test for create views
+# test for create views
 @pytest.mark.django_db
 def test_add_movie(client):
     movies = Movie.objects.all()
@@ -58,7 +58,7 @@ def test_add_movie_invalid_json_keys(client):
     assert len(movies) == 0
 
 
-#! Tests for get movies
+# Tests for get movies
 @pytest.mark.django_db
 def test_get_single_movie(client, add_movie):
     # add_movie -> from conftests
@@ -107,7 +107,7 @@ def test_get_single_movie_incorrect_id(client):
 #     assert resp.data[1]["title"] == movie2.title
 #     resp2 = client.get("/api/movies/166/")  # type: ignore
 #     assert resp2.status_code == 404
-#!Tests for delete
+# Tests for delete
 @pytest.mark.django_db
 def test_remove_movie(client, add_movie):
     movie = add_movie(title="Sinners", genre="horror", year="2026")
@@ -126,5 +126,5 @@ def test_remove_movie(client, add_movie):
 
 @pytest.mark.django_db
 def test_remove_movie_incorrect_id(client):
-    resp = client.delete(f"/api/movies/99/")
+    resp = client.delete("/api/movies/99/")
     assert resp.status_code == 404
