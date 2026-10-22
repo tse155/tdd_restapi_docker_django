@@ -1,6 +1,6 @@
 # import json
 
-import pytest  # type:ignore
+import pytest  # type: ignore
 
 from movies.models import Movie
 

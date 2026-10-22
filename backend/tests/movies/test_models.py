@@ -1,6 +1,6 @@
-import pytest  # type:ignore
+import pytest  # type: ignore
 
-from movies.models import Movie  # type:ignore
+from movies.models import Movie  # type: ignore
 
 
 @pytest.mark.django_db
