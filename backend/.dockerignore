@@ -4,3 +4,4 @@ Dockerfile
 Dockerfile.prod
 .env.dev
 .env.prod.local
+reference.txt
