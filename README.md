@@ -1,6 +1,11 @@
 # Test-Driven Development with Django, Django REST Framework, and Docker
 
 ![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.12-blue.svg)
+![Django](https://img.shields.io/badge/Django-5.x-green.svg)
+![Docker](https://img.shields.io/badge/Docker-containerized-2496ED.svg)
+![Heroku](https://img.shields.io/badge/Heroku-deployed-430098.svg)
 
 A production-ready REST API built with Django REST Framework, containerized with Docker, 
 deployed on Heroku with Supabase PostgreSQL, and tested with full CI via GitHub Actions.
