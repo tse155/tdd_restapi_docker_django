@@ -54,7 +54,7 @@ jobs:
           flake8 .
           black --check --exclude=migrations .
           isort . --check-only
-          pip-audit -r requirements.txt
+
           
   audit:
     runs-on: ubuntu-latest
