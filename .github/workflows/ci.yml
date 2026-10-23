@@ -16,7 +16,10 @@ jobs:
         run: |
           IMAGE=ghcr.io/${{ github.repository }}
           docker pull $IMAGE:latest || true
+
+          # Force the standard single-architecture linux/amd64 build
           docker build \
+            --platform linux/amd64 \
             --cache-from $IMAGE:latest \
             --tag $IMAGE:latest \
             --file ./backend/Dockerfile.prod \
