@@ -2,8 +2,8 @@
 
 ![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
 ![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/Python-3.12-blue.svg)
-![Django](https://img.shields.io/badge/Django-5.x-green.svg)
+![Python](https://img.shields.io/badge/Python-3.14-blue.svg)
+![Django](https://img.shields.io/badge/Django-6.x-green.svg)
 ![Docker](https://img.shields.io/badge/Docker-containerized-2496ED.svg)
 ![Heroku](https://img.shields.io/badge/Heroku-deployed-430098.svg)
 
