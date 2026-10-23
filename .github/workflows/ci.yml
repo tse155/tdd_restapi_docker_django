@@ -13,16 +13,10 @@ jobs:
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build and push image
-        env:
-          # Disabled advanced BuildKit features that create unsupported OCI formats
-          BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
         run: |
           IMAGE=ghcr.io/${{ github.repository }}
           docker pull $IMAGE:latest || true
-
-          # Force the standard single-architecture linux/amd64 build
           docker build \
-            --platform linux/amd64 \
             --cache-from $IMAGE:latest \
             --tag $IMAGE:latest \
             --file ./backend/Dockerfile.prod \
@@ -86,10 +80,15 @@ jobs:
       HEROKU_APP_NAME: shrouded-coast-71667
       HEROKU_REGISTRY_IMAGE: registry.heroku.com/shrouded-coast-71667/web
       HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+      BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
     steps:
       - uses: actions/checkout@v4
       - name: Log in to Heroku registry
         run: echo "$HEROKU_AUTH_TOKEN" | docker login registry.heroku.com -u _ --password-stdin
+      - name: Docker diagnostics
+        run: |
+          docker version --format '{{.Server.Version}}'
+          docker info | grep -i -E "storage driver|containerd|driver-type"
       - name: Build and push
         run: |
           docker build \
