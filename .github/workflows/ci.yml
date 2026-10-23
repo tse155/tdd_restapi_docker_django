@@ -14,7 +14,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build and push image
         env:
-          # Disables advanced BuildKit features that create unsupported OCI formats
+          # Disabled advanced BuildKit features that create unsupported OCI formats
           BUILDX_NO_DEFAULT_ATTESTATIONS: "1"
         run: |
           IMAGE=ghcr.io/${{ github.repository }}
