@@ -91,11 +91,14 @@ jobs:
           docker info | grep -i -E "storage driver|containerd|driver-type"
       - name: Build and push
         run: |
+          IMAGE=ghcr.io/${{ github.repository }}
+          docker pull $IMAGE:latest || true
           docker build \
-            --tag $HEROKU_REGISTRY_IMAGE \
+            --cache-from $IMAGE:latest \
+            --tag $IMAGE:latest \
             --file ./backend/Dockerfile.prod \
             ./backend
-          docker push $HEROKU_REGISTRY_IMAGE
+          docker push $IMAGE:latest
       - name: Debug release inputs
         run: |
           curl -s -o /dev/null -w "app lookup: %{http_code}\n" \
