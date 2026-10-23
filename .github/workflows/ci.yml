@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write  
@@ -24,7 +24,7 @@ jobs:
           docker push $IMAGE:latest
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     services:
       postgres:
@@ -57,7 +57,7 @@ jobs:
 
           
   audit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     container:
       image: ghcr.io/${{ github.repository }}:latest
@@ -70,7 +70,7 @@ jobs:
           pip-audit -r requirements.txt
   
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
@@ -88,12 +88,11 @@ jobs:
       - name: Docker diagnostics
         run: |
           docker version --format '{{.Server.Version}}'
-          docker info | grep -i -E "storage driver|containerd|driver-type"
+          docker info | grep -i -E "storage driver|driver-type"
+          curl --version | head -1
       - name: Build and push
         run: |
           docker build \
-            --platform linux/amd64 \
-            --cache-from $IMAGE:latest \
             --tag $HEROKU_REGISTRY_IMAGE \
             --file ./backend/Dockerfile.prod \
             ./backend
