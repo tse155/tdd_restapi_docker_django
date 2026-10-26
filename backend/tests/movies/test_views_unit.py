@@ -1,8 +1,7 @@
 import pytest  # type: ignore
-
 from django.http import Http404
 
-from movies.views import MovieSerializer, MovieDetail, Movie
+from movies.views import Movie, MovieDetail, MovieSerializer
 
 
 def test_add_movie(client, monkeypatch):
@@ -38,7 +37,7 @@ def test_add_movie_invalid_json_keys(client):
 
 
 def test_get_single_movie(client, monkeypatch):
-    payload = {"title": "The Big Short", "genre": "comedy", "year": "2014"}
+    payload = {"title": "The Big Short", "genre": "drama", "year": "2014"}
 
     def mock_get_object(self, pk):
         return 1
