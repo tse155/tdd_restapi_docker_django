@@ -1,7 +1,6 @@
 # Test-Driven Development with Django, Django REST Framework, and Docker
 
 ![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
-![CI](https://github.com/tse155/tdd_restapi_docker_django/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.14-blue.svg)
 ![Django](https://img.shields.io/badge/Django-6.x-green.svg)
 ![Docker](https://img.shields.io/badge/Docker-containerized-2496ED.svg)
